@@ -2,3 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp-deployment
+spec:
+  replicas: 4
+  # 4 реплики согласно нагрузочному тесту
+  selector:
+    matchLabels:
+      app: webapp
+  # Селектор помогает Deployment найти свои поды
+  template:
+    metadata:
+      labels:
+        app: webapp
+    # Теперь каждый Pod будет помечен как "webapp"
+  spec:
+    containers:
+    - name: webapp-container
+      image: nginx:latest  # Временный заглушка образа
+      # Пока используем nginx для примера
