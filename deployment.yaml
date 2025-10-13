@@ -13,26 +13,32 @@ spec:
     metadata:
       labels:
         app: webapp
-    # Теперь каждый Pod будет помечен как "webapp"
+    # Теперь каждый под будет помечен как "webapp"
   spec:
     containers:
     - name: webapp-container
-      image: nginx:latest  # Временный заглушка образа
-      # Пока используем nginx для примера
-containers:
-- name: webapp-container
-  image: nginx:latest
-  resources:
-    requests:
-      memory: "128Mi"
-      cpu: "100m"    # 0.1 CPU - ровное потребление после инициализации
-    limits:
-      memory: "128Mi"
-      cpu: "500m"    # Запас для стартового скачка CPU
-  readinessProbe:
-    httpGet:
-      path: /
-      port: 80
-    initialDelaySeconds: 8
-    # Даём 8 секунд на инициализацию (из 5-10 сек по ТЗ)
-    periodSeconds: 5
+      image: nginx:latest
+      resources:
+        requests:
+          memory: "128Mi"
+          cpu: "100m"    # 0.1 CPU - ровное потребление после инициализации
+        limits:
+          memory: "128Mi"
+          cpu: "500m"    # Запас для стартового скачка CPU
+      readinessProbe:
+        httpGet:
+          path: /
+          port: 80
+        initialDelaySeconds: 8
+        # Даём 8 секунд на инициализацию (из 5-10 сек по ТЗ)
+        periodSeconds: 5
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app: webapp
+            topologyKey: "kubernetes.io/hostname"
+    # Стараемся распределить поды по разным нодам
