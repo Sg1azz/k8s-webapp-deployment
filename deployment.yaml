@@ -29,9 +29,9 @@ spec:
           httpGet:
             path: /
             port: 80
-        initialDelaySeconds: 8
+          initialDelaySeconds: 8
         # Даём 8 секунд на инициализацию (из 5-10 сек по ТЗ)
-        periodSeconds: 5
+          periodSeconds: 5
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
