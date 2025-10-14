@@ -17,7 +17,7 @@ spec:
   spec:
     containers:
     - name: webapp-container
-      image: nginx:latest
+      image: nginx:latest     #Заглушка в виде веб-сервера для проверки доступности
       resources:
         requests:
           memory: "128Mi"
